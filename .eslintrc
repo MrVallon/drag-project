@@ -8,7 +8,13 @@
   "rules": {
     "require-jsdoc": "off",
     "max-len": "off",
-    "object-curly-spacing": "off"
+    "object-curly-spacing": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ]
   },
   "plugins": [
     "prettier"
