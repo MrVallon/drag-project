@@ -1,5 +1,5 @@
 const path = require('path');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -7,15 +7,17 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const isProd = process.env.NODE_ENV === 'production';
 const isDev = !isProd;
 
-const fileName = (ext) => isDev ? `bundle.${ext}` : `bundle.[hash].${ext}`;
+const fileName = ext => (isDev ? `bundle.${ext}` : `bundle.[hash].${ext}`);
 
 const jsLoaders = () => {
-  const loaders = [{
-    loader: 'babel-loader',
-    options: {
-      presets: ['@babel/preset-env'],
+  const loaders = [
+    {
+      loader: 'babel-loader',
+      options: {
+        presets: ['@babel/preset-typescript', '@babel/preset-react'],
+      },
     },
-  }];
+  ];
   if (isDev) {
     loaders.push('eslint-loader');
   }
@@ -25,20 +27,20 @@ const jsLoaders = () => {
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'development',
-  entry: ['@babel/polyfill', './index.js'],
+  entry: ['@babel/polyfill', './index.ts'],
   output: {
     filename: fileName('js'),
     path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
-    extensions: ['.js'],
+    extensions: ['*', '.js', '.jsx', '.tsx', '.ts'],
     alias: {
       '@': path.resolve(__dirname, 'src'),
       '@component': path.resolve(__dirname, 'src/components'),
     },
   },
   target: process.env.NODE_ENV === 'development' ? 'web' : 'browserslist',
-  devtool: isDev ? 'source-map' : false,
+  devtool: 'inline-source-map',
   devServer: {
     port: 3000,
     hot: isDev,
@@ -71,14 +73,10 @@ module.exports = {
     rules: [
       {
         test: /\.s[ac]ss$/i,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'sass-loader',
-        ],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.js$/,
+        test: /\.(js|jsx|tsx|ts)$/,
         exclude: /node_modules/,
         use: jsLoaders(),
       },

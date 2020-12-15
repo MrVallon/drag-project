@@ -6,7 +6,12 @@
     "node": true
   },
   "rules": {
-    "require-jsdoc": "off"
+    "require-jsdoc": "off",
+    "max-len": "off",
+    "object-curly-spacing": "off"
   },
-  "extends": ["eslint:recommended", "google"]
+  "plugins": [
+    "prettier"
+  ],
+  "extends": ["eslint:recommended", "google", "plugin:prettier/recommended", "prettier"]
 }
