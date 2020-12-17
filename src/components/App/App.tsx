@@ -6,6 +6,8 @@ import './App.scss';
 const App: React.FC = () => {
     const [imageSrc, setImageSrc] = useState<string>('');
 
+    const showWorningAlert = (message: string) => alert(message);
+
     const getSrc = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files !== null) {
             const img = event.target.files[0];
@@ -17,7 +19,7 @@ const App: React.FC = () => {
         event.preventDefault();
         if (event.dataTransfer.files !== null) {
             if (event.dataTransfer.files.length > 1) {
-                alert('You can upload only one image');
+                showWorningAlert('You can upload only one image');
             } else {
                 const img = event.dataTransfer.files[0];
                 validateFileType(img);
@@ -30,7 +32,7 @@ const App: React.FC = () => {
             if (image.width === 100 && image.height === 100) {
                 setImageSrc(image.src);
             } else {
-                alert('Not correct file type or size!');
+                showWorningAlert('Logo should be square and 100px size');
                 setImageSrc(prev => prev);
             }
         } else {
@@ -44,11 +46,15 @@ const App: React.FC = () => {
         const image = document.createElement('img');
         image.src = imgUrl;
 
+        const currentFormatFile = file.type.split('/')[1];
+
         if (validTypes.includes(file.type)) {
             return validateImageSize(image);
         }
 
-        return false;
+        return showWorningAlert(
+            `Not correct file type "${currentFormatFile}"! Logo should be png or jpeg file format.`,
+        );
     };
 
     return (
