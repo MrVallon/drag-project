@@ -51,7 +51,7 @@ const Drag: React.FC<DragTypes> = ({ imageSrc, getSrc, getDragSrc }) => {
             <input
                 id="inputFile"
                 type="file"
-                accept=".jpeg, .png"
+                accept="image/jpeg,image/png"
                 onChange={event => getSrc(event)}
             />
             <label className="drag__upload" htmlFor="inputFile">

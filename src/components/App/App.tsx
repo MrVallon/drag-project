@@ -16,19 +16,22 @@ const App: React.FC = () => {
     const getDragSrc = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         if (event.dataTransfer.files !== null) {
-            const img = event.dataTransfer.files[0];
-            validateFileType(img);
+            if (event.dataTransfer.files.length > 1) {
+                alert('You can upload only one image');
+            } else {
+                const img = event.dataTransfer.files[0];
+                validateFileType(img);
+            }
         }
     };
 
     const validateImageSize = (image: HTMLImageElement) => {
         if (image.complete && image.naturalWidth > 0) {
             if (image.width === 100 && image.height === 100) {
-                console.log('Correct file!');
                 setImageSrc(image.src);
             } else {
-                setImageSrc('warning');
-                console.log('Not correct file!');
+                alert('Not correct file type or size!');
+                setImageSrc(prev => prev);
             }
         } else {
             setTimeout(() => validateImageSize(image), 100);
