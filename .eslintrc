@@ -6,6 +6,7 @@
     "node": true
   },
   "rules": {
+    "react/prop-types": 0,
     "require-jsdoc": "off",
     "max-len": "off",
     "object-curly-spacing": "off",

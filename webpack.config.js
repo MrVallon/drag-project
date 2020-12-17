@@ -34,10 +34,6 @@ module.exports = {
     },
     resolve: {
         extensions: ['*', '.js', '.jsx', '.tsx', '.ts'],
-        alias: {
-            '@': path.resolve(__dirname, 'src'),
-            '@component': path.resolve(__dirname, 'src/components'),
-        },
     },
     target: process.env.NODE_ENV === 'development' ? 'web' : 'browserslist',
     devtool: 'inline-source-map',
