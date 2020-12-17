@@ -6,6 +6,7 @@
     "node": true
   },
   "rules": {
+    "no-unused-vars": "off",
     "react/prop-types": 0,
     "require-jsdoc": "off",
     "max-len": "off",

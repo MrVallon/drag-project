@@ -5,27 +5,27 @@
   background: #fff;
   margin: 50px auto;
 
-  & header {
+  &__header {
     display: flex;
     flex-direction: column;
     height: 79px;
     border-bottom: 1px solid #E8F1FB;
-
-    & h1 {
-      font-weight: bold;
-      font-size: 20px;
-      margin: 21px 0 0 29px;
-    }
-
-    & p {
-      color: #6B85A3;
-      font-size: 12px;
-      margin-left: 29px;
-      margin-top: 2px;
-    }
   }
 
-  &__main {
+  &__heading {
+    font-weight: bold;
+    font-size: 20px;
+    margin: 21px 0 0 29px;
+  }
+
+  &__conditions {
+    color: #6B85A3;
+    font-size: 12px;
+    margin-left: 29px;
+    margin-top: 2px;
+  }
+
+  &__main-field {
     height: 510px;
   }
 }
