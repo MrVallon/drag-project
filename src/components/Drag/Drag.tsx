@@ -11,7 +11,9 @@ interface DragTypes {
 
 const Drag: React.FC<DragTypes> = ({ imageSrc, getSrc, getDragSrc }) => {
     const [isActive, setIsActive] = useState(false);
-    // const classes = ['drag'];
+    const classes = isActive ? 'drag enter' : 'drag';
+    const isWarning = imageSrc === 'warning';
+
     const dragOver = (event: React.MouseEvent) => {
         event.preventDefault();
     };
@@ -26,20 +28,21 @@ const Drag: React.FC<DragTypes> = ({ imageSrc, getSrc, getDragSrc }) => {
         setIsActive(!isActive);
     };
 
+    const dragQuit = (event: React.DragEvent<HTMLDivElement>) => {
+        getDragSrc(event);
+        setIsActive(!isActive);
+    };
+
     return (
         <div
             onDragOver={dragOver}
             onDragEnter={dragEnter}
             onDragLeave={dragLeave}
-            onDrop={event => getDragSrc(event)}
-            className={isActive ? 'drag enter' : 'drag'}
+            onDrop={event => dragQuit(event)}
+            className={classes}
         >
-            {imageSrc ? (
-                <img
-                    style={{ width: '80px', borderRadius: '80px' }}
-                    srcSet={imageSrc}
-                    alt="your logo"
-                />
+            {imageSrc && !isWarning ? (
+                <img srcSet={imageSrc} alt="your logo" />
             ) : (
                 <MainLogo />
             )}
