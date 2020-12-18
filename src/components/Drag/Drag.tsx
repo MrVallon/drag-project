@@ -41,11 +41,16 @@ const Drag: React.FC<DragTypes> = ({ imageSrc, getSrc, getDragSrc }) => {
             onDrop={event => dragQuit(event)}
             className={classes}
         >
-            {imageSrc && !isWarning ? (
-                <img srcSet={imageSrc} alt="your logo" />
-            ) : (
-                <MainLogo />
-            )}
+            <div className="drag__loared sun">
+                <div className="dot">
+                    {imageSrc && !isWarning ? (
+                        <img srcSet={imageSrc} alt="your logo" />
+                    ) : (
+                        <MainLogo />
+                    )}
+                </div>
+            </div>
+
             <p>Drag & drop here</p>
             <p>- or -</p>
             <input

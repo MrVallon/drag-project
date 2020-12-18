@@ -30,11 +30,30 @@
 
   & img {
     width: 80px;
-    border-radius: 80px;
+    height: 80px;
+    border-radius: 50%;
   }
 }
 
 .enter {
   border: 1px dashed #4991E5;
   background: #F5F9FF;
+}
+
+.dot{
+  stroke-dasharray: 250;
+  stroke-dashoffset: 250;
+  animation: dash 1.5s infinite;
+  fill: none;
+}
+
+
+@keyframes dash {
+  50% {
+    stroke-dashoffset: 0;
+
+  }
+  100% {
+    stroke-dashoffset: -250;
+  }
 }
