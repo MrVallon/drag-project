@@ -47,6 +47,14 @@ const App: React.FC = () => {
         const validTypes = ['image/jpeg', 'image/png'];
         const imgUrl = URL.createObjectURL(file);
         const image = document.createElement('img');
+        // image.onload = () => {
+        //     console.log('onLoad');
+        // };
+        // image.onabort = () => {
+        //     if (isCancel) {
+        //         setImageSrc(prev => prev);
+        //     }
+        // }
         image.src = imgUrl;
 
         const currentFormatFile = file.type.split('/')[1];

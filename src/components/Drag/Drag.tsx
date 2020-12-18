@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MainLogo } from '../MainLogo/MainLogo';
 
 import './Drag.scss';
@@ -17,8 +17,8 @@ const Drag: React.FC<DragTypes> = ({
     isLoading,
 }) => {
     const [isActive, setIsActive] = useState(false);
+    const [image, setImage] = useState<HTMLImageElement | null>(null);
     const classes = isActive ? 'drag enter' : 'drag';
-    const isWarning = imageSrc === 'warning';
 
     const dragOver = (event: React.MouseEvent) => {
         event.preventDefault();
@@ -38,6 +38,21 @@ const Drag: React.FC<DragTypes> = ({
         getDragSrc(event);
         setIsActive(!isActive);
     };
+
+    const delayUploadImage = (imageSrc: string) =>
+        new Promise(resolve => {
+            setTimeout(() => {
+                resolve(<img srcSet={imageSrc} alt="your logo" />);
+            }, 1500);
+        });
+
+    useEffect(() => {
+        if (imageSrc) {
+            delayUploadImage(imageSrc)
+                .then((res: any) => setImage(res))
+                .catch(() => setImage((prev: HTMLImageElement | null) => prev));
+        }
+    }, [imageSrc]);
 
     return (
         <div
@@ -59,14 +74,10 @@ const Drag: React.FC<DragTypes> = ({
                     </svg>
                 </div>
             )}
-            {imageSrc && !isWarning ? (
-                <img srcSet={imageSrc} alt="your logo" />
-            ) : (
-                <MainLogo />
-            )}
+            {image ? image : <MainLogo />}
 
             <p>Drag & drop here</p>
-            <p>- or -</p>
+            <p className="drag__or">- or -</p>
             <input
                 id="inputFile"
                 type="file"
