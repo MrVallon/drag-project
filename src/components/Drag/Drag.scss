@@ -1,4 +1,5 @@
 .drag {
+  position: relative;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -40,20 +41,36 @@
   background: #F5F9FF;
 }
 
-.dot{
-  stroke-dasharray: 250;
-  stroke-dashoffset: 250;
-  animation: dash 1.5s infinite;
-  fill: none;
-}
-
-
 @keyframes dash {
   50% {
     stroke-dashoffset: 0;
-
   }
   100% {
-    stroke-dashoffset: -250;
+    stroke-dashoffset: -0;
+  }
+}
+
+.loading {
+  position: absolute;
+  top: 2.9%;
+  left: 18%;
+  stroke-dasharray: 250;
+  stroke-dashoffset: 250;
+  // animation: dash 1.5s infinite;
+  animation-name: dash;
+  animation-duration: 1.5s;
+
+  & svg {
+    transform: rotate(-90deg);
+    fill: none;
+
+    & circle {
+      border: 1px solid red;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      stroke: #4991E5;
+      fill: none;
+    }
   }
 }

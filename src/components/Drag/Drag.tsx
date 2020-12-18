@@ -5,11 +5,17 @@ import './Drag.scss';
 
 interface DragTypes {
     imageSrc: string;
+    isLoading: boolean;
     getSrc: (event: React.ChangeEvent<HTMLInputElement>) => void;
     getDragSrc: (event: React.DragEvent<HTMLDivElement>) => void;
 }
 
-const Drag: React.FC<DragTypes> = ({ imageSrc, getSrc, getDragSrc }) => {
+const Drag: React.FC<DragTypes> = ({
+    imageSrc,
+    getSrc,
+    getDragSrc,
+    isLoading,
+}) => {
     const [isActive, setIsActive] = useState(false);
     const classes = isActive ? 'drag enter' : 'drag';
     const isWarning = imageSrc === 'warning';
@@ -41,15 +47,23 @@ const Drag: React.FC<DragTypes> = ({ imageSrc, getSrc, getDragSrc }) => {
             onDrop={event => dragQuit(event)}
             className={classes}
         >
-            <div className="drag__loared sun">
-                <div className="dot">
-                    {imageSrc && !isWarning ? (
-                        <img srcSet={imageSrc} alt="your logo" />
-                    ) : (
-                        <MainLogo />
-                    )}
+            {isLoading && (
+                <div className="loading">
+                    <svg>
+                        <circle
+                            className="dot__circ"
+                            cx="40"
+                            cy="40"
+                            r="39.5"
+                        />
+                    </svg>
                 </div>
-            </div>
+            )}
+            {imageSrc && !isWarning ? (
+                <img srcSet={imageSrc} alt="your logo" />
+            ) : (
+                <MainLogo />
+            )}
 
             <p>Drag & drop here</p>
             <p>- or -</p>

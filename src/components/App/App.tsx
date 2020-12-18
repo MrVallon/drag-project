@@ -5,6 +5,7 @@ import './App.scss';
 
 const App: React.FC = () => {
     const [imageSrc, setImageSrc] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const showWorningAlert = (message: string) => alert(message);
 
@@ -17,6 +18,7 @@ const App: React.FC = () => {
 
     const getDragSrc = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
+        setIsLoading(false);
         if (event.dataTransfer.files !== null) {
             if (event.dataTransfer.files.length > 1) {
                 showWorningAlert('You can upload only one image');
@@ -31,6 +33,7 @@ const App: React.FC = () => {
         if (image.complete && image.naturalWidth > 0) {
             if (image.width === 100 && image.height === 100) {
                 setImageSrc(image.src);
+                setIsLoading(true);
             } else {
                 showWorningAlert('Logo should be square and 100px size');
                 setImageSrc(prev => prev);
@@ -71,6 +74,7 @@ const App: React.FC = () => {
                     imageSrc={imageSrc}
                     getSrc={getSrc}
                     getDragSrc={getDragSrc}
+                    isLoading={isLoading}
                 />
             </div>
         </div>
