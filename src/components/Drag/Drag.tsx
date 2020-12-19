@@ -24,6 +24,7 @@ const Drag: React.FC<TDragProps> = ({
     getDragSrc,
     clearImageDataOnCancel,
 }) => {
+    const [isCancel, setIsCancel] = useState<boolean>(false);
     const [state, setState] = useState<TInitialState>({
         isActive: false,
         isUploadProcess: false,
@@ -31,7 +32,6 @@ const Drag: React.FC<TDragProps> = ({
         uploadButtonText: 'Select file to upload',
         image: null,
     });
-    const [isCancel, setIsCancel] = useState(false);
 
     const {
         isActive,
