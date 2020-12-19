@@ -18,7 +18,6 @@ const App: React.FC = () => {
     const getSrc = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files !== null) {
             const img = event.target.files[0];
-            setImageName(img.name);
             validateUniqueImage(img);
         }
     };
@@ -30,7 +29,6 @@ const App: React.FC = () => {
                 showWarningAlert('You can upload only one image');
             } else {
                 const img = event.dataTransfer.files[0];
-                setImageName(img.name);
                 validateUniqueImage(img);
             }
         }
@@ -52,6 +50,7 @@ const App: React.FC = () => {
         const currentFormatFile = file.type.split('/')[1];
 
         if (validTypes.includes(file.type)) {
+            setImageName(file.name);
             return validateImageSize(image);
         }
 
