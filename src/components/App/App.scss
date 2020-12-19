@@ -3,16 +3,15 @@
 .app {
   border: 1px solid #E8F1FB;
   background: #fff;
+  margin: auto;
 
   @media #{$adaptive-iphone-6-7-8} {
     width: 355px;
-    margin: auto;
     height: 650px;
   }
 
   @media #{$adaptive-iphone-6-7-8-plus} {
     width: 394px;
-    margin: auto;
     height: 718px;
   }
 
@@ -47,6 +46,8 @@
   }
 
   &__main-field {
+    height: 510px;
+
     @media #{$adaptive-iphone-6-7-8} {
       margin: 10% auto;
     }
@@ -60,7 +61,6 @@
     }
 
     @media #{$adaptive-monitor} {
-      height: 510px;
       margin: 0;
     }
   }
