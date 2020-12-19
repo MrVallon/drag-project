@@ -3,21 +3,43 @@ import { MainLogo } from '../MainLogo/MainLogo';
 import Loader from '../Loader/Loader';
 import './Drag.scss';
 
-interface DragTypes {
+interface TDragProps {
     imageSrc: string;
     getSrc: (event: React.ChangeEvent<HTMLInputElement>) => void;
     getDragSrc: (event: React.DragEvent<HTMLDivElement>) => void;
+    clearImageDataOnCancel: (isCancel: boolean) => void;
 }
 
-const Drag: React.FC<DragTypes> = ({ imageSrc, getSrc, getDragSrc }) => {
-    const [isActive, setIsActive] = useState<boolean>(false);
-    const [isCancel, setIsCancel] = useState<boolean>(false);
-    const [isUploadProcess, setIsUploadProcess] = useState<boolean>(false);
-    const [dragText, setDragText] = useState<string>('Drag & drop here');
-    const [uploadButtonText, setUploadButtonText] = useState<string>(
-        'Select file to upload',
-    );
-    const [image, setImage] = useState<HTMLImageElement | null>(null);
+interface TInitialState {
+    isActive: boolean;
+    isUploadProcess: boolean;
+    dragText: string;
+    uploadButtonText: string;
+    image: HTMLImageElement | null;
+}
+
+const Drag: React.FC<TDragProps> = ({
+    imageSrc,
+    getSrc,
+    getDragSrc,
+    clearImageDataOnCancel,
+}) => {
+    const [state, setState] = useState<TInitialState>({
+        isActive: false,
+        isUploadProcess: false,
+        dragText: 'Drag & drop here',
+        uploadButtonText: 'Select file to upload',
+        image: null,
+    });
+    const [isCancel, setIsCancel] = useState(false);
+
+    const {
+        isActive,
+        image,
+        uploadButtonText,
+        dragText,
+        isUploadProcess,
+    } = state;
 
     const classes = isActive ? 'drag enter' : 'drag';
 
@@ -27,28 +49,42 @@ const Drag: React.FC<DragTypes> = ({ imageSrc, getSrc, getDragSrc }) => {
 
     const dragEnter = (event: React.MouseEvent) => {
         event.preventDefault();
-        setIsActive(!isActive);
+        setState({
+            ...state,
+            isActive: !isActive,
+        });
     };
 
     const dragLeave = (event: React.MouseEvent) => {
         event.preventDefault();
-        setIsActive(!isActive);
+        setState({
+            ...state,
+            isActive: !isActive,
+        });
     };
 
     const dragQuit = (event: React.DragEvent<HTMLDivElement>) => {
         getDragSrc(event);
-        setIsActive(!isActive);
+        setState({
+            ...state,
+            isActive: !isActive,
+        });
     };
 
     const delayUploadImage = (imageSrc: string) => {
-        setDragText('Uploading');
-        setUploadButtonText('Cancel');
-
         return new Promise(resolve => {
-            setIsUploadProcess(true);
+            setState({
+                ...state,
+                dragText: 'Uploading',
+                uploadButtonText: 'Cancel',
+                isUploadProcess: true,
+            });
             setTimeout(() => {
                 resolve(<img srcSet={imageSrc} alt="your logo" />);
-                setIsUploadProcess(false);
+                setState({
+                    ...state,
+                    isUploadProcess: false,
+                });
             }, 1500);
         });
     };
@@ -56,24 +92,41 @@ const Drag: React.FC<DragTypes> = ({ imageSrc, getSrc, getDragSrc }) => {
     useEffect(() => {
         if (imageSrc) {
             delayUploadImage(imageSrc)
-                .then((res: any) => setImage(res))
-                .catch(() => setImage((prev: HTMLImageElement | null) => prev));
+                .then((res: any) => {
+                    setState({ ...state, image: res });
+                })
+                .catch(() =>
+                    setState(prevState => ({
+                        ...state,
+                        image: prevState.image,
+                    })),
+                );
         }
     }, [imageSrc]);
 
     useEffect(() => {
         if (image) {
-            setDragText('Drag & drop here to replace');
-            setUploadButtonText('Select file to replace');
+            setState({
+                ...state,
+                dragText: 'Drag & drop here to replace',
+                uploadButtonText: 'Select file to replace',
+            });
         } else {
-            setDragText('Drag & drop here');
-            setUploadButtonText('Select file to upload');
+            setState({
+                ...state,
+                dragText: 'Drag & drop here',
+                uploadButtonText: 'Select file to upload',
+            });
         }
     }, [image]);
 
     useEffect(() => {
         if (image && isCancel && !isUploadProcess) {
-            setImage(null);
+            clearImageDataOnCancel(isCancel);
+            setState({
+                ...state,
+                image: null,
+            });
             setIsCancel(false);
         }
     }, [isCancel, image, isUploadProcess]);
