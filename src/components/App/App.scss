@@ -1,9 +1,29 @@
+@import "../variables";
+
 .app {
-  width: 400px;
-  height: 590px;
   border: 1px solid #E8F1FB;
   background: #fff;
-  margin: 50px auto;
+  margin: auto;
+
+  @media #{$adaptive-iphone-6-7-8} {
+    width: 355px;
+    height: 650px;
+  }
+
+  @media #{$adaptive-iphone-6-7-8-plus} {
+    width: 394px;
+    height: 718px;
+  }
+
+  @media #{$adaptive-iphone-x} {
+    height: 794px;
+  }
+
+  @media #{$adaptive-monitor} {
+    margin: 50px auto;
+    width: 400px;
+    height: 590px;
+  }
 
   &__header {
     display: flex;
@@ -27,5 +47,23 @@
 
   &__main-field {
     height: 510px;
+
+    @media #{$adaptive-iphone-6-7-8} {
+      margin: 10% auto;
+    }
+
+    @media #{$adaptive-iphone-6-7-8-plus} {
+      margin: 20% auto;
+    }
+
+    @media #{$adaptive-iphone-x} {
+      margin: 30% auto;
+    }
+
+    @media #{$adaptive-monitor} {
+      margin: 0;
+    }
   }
 }
+
+

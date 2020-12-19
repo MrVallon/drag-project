@@ -1,0 +1,9 @@
+$usmall: 370px;
+$xsmall: 400px;
+$small: 768px;
+$medium: 770px;
+
+$adaptive-iphone-6-7-8: 'only screen and (min-width: #{$usmall})';
+$adaptive-iphone-6-7-8-plus: 'only screen and (min-width: #{$xsmall})';
+$adaptive-iphone-x: 'only screen and (min-width: #{$usmall}) and (min-height: #{$small})';
+$adaptive-monitor: 'only screen and (min-width: #{$medium})';
