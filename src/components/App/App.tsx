@@ -6,7 +6,14 @@ const App: React.FC = () => {
     const [imageSrc, setImageSrc] = useState<string>('');
     const [imageName, setImageName] = useState<string>('');
 
-    const showWorningAlert = (message: string) => alert(message);
+    const clearImageDataOnCancel = (isCancel: boolean) => {
+        if (isCancel) {
+            setImageSrc('');
+            setImageName('');
+        }
+    };
+
+    const showWarningAlert = (message: string) => alert(message);
 
     const getSrc = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files !== null) {
@@ -20,7 +27,7 @@ const App: React.FC = () => {
         event.preventDefault();
         if (event.dataTransfer.files !== null) {
             if (event.dataTransfer.files.length > 1) {
-                showWorningAlert('You can upload only one image');
+                showWarningAlert('You can upload only one image');
             } else {
                 const img = event.dataTransfer.files[0];
                 setImageName(img.name);
@@ -31,7 +38,7 @@ const App: React.FC = () => {
 
     const validateUniqueImage = (img: File) => {
         if (imageName === img.name) {
-            showWorningAlert('This is same picture');
+            showWarningAlert('This is same picture');
         } else {
             validateFileType(img);
         }
@@ -48,7 +55,7 @@ const App: React.FC = () => {
             return validateImageSize(image);
         }
 
-        return showWorningAlert(
+        return showWarningAlert(
             `Not correct file type "${currentFormatFile}"! Logo should be png or jpeg file format.`,
         );
     };
@@ -58,7 +65,7 @@ const App: React.FC = () => {
             if (image.width === 100 && image.height === 100) {
                 setImageSrc(image.src);
             } else {
-                showWorningAlert('Logo should be square and 100px size');
+                showWarningAlert('Logo should be square and 100px size');
                 setImageSrc(prev => prev);
             }
         } else {
@@ -80,6 +87,7 @@ const App: React.FC = () => {
                     imageSrc={imageSrc}
                     getSrc={getSrc}
                     getDragSrc={getDragSrc}
+                    clearImageDataOnCancel={clearImageDataOnCancel}
                 />
             </div>
         </div>
