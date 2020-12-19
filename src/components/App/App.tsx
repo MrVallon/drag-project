@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Drag from '../Drag/Drag';
-
 import './App.scss';
 
 const App: React.FC = () => {

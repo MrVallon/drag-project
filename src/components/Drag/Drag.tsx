@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { MainLogo } from '../MainLogo/MainLogo';
-
+import Loader from '../Loader/Loader';
 import './Drag.scss';
 
 interface DragTypes {
@@ -43,6 +43,7 @@ const Drag: React.FC<DragTypes> = ({ imageSrc, getSrc, getDragSrc }) => {
     const delayUploadImage = (imageSrc: string) => {
         setDragText('Uploading');
         setUploadButtonText('Cancel');
+
         return new Promise(resolve => {
             setIsUploadProcess(true);
             setTimeout(() => {
@@ -85,18 +86,7 @@ const Drag: React.FC<DragTypes> = ({ imageSrc, getSrc, getDragSrc }) => {
             onDrop={event => dragQuit(event)}
             className={classes}
         >
-            {isUploadProcess && (
-                <div className="loading">
-                    <svg>
-                        <circle
-                            className="dot__circ"
-                            cx="40"
-                            cy="40"
-                            r="39.5"
-                        />
-                    </svg>
-                </div>
-            )}
+            {isUploadProcess && <Loader />}
             {image ? image : <MainLogo />}
             <p>{dragText}</p>
             <p className="drag__or">- or -</p>
