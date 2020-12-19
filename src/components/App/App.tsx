@@ -5,41 +5,36 @@ import './App.scss';
 
 const App: React.FC = () => {
     const [imageSrc, setImageSrc] = useState<string>('');
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [imageName, setImageName] = useState<string>('');
 
     const showWorningAlert = (message: string) => alert(message);
 
     const getSrc = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files !== null) {
             const img = event.target.files[0];
-            validateFileType(img);
+            setImageName(img.name);
+            validateUniqueImage(img);
         }
     };
 
     const getDragSrc = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
-        setIsLoading(false);
         if (event.dataTransfer.files !== null) {
             if (event.dataTransfer.files.length > 1) {
                 showWorningAlert('You can upload only one image');
             } else {
                 const img = event.dataTransfer.files[0];
-                validateFileType(img);
+                setImageName(img.name);
+                validateUniqueImage(img);
             }
         }
     };
 
-    const validateImageSize = (image: HTMLImageElement) => {
-        if (image.complete && image.naturalWidth > 0) {
-            if (image.width === 100 && image.height === 100) {
-                setImageSrc(image.src);
-                setIsLoading(true);
-            } else {
-                showWorningAlert('Logo should be square and 100px size');
-                setImageSrc(prev => prev);
-            }
+    const validateUniqueImage = (img: File) => {
+        if (imageName === img.name) {
+            showWorningAlert('This is same picture');
         } else {
-            setTimeout(() => validateImageSize(image), 100);
+            validateFileType(img);
         }
     };
 
@@ -47,16 +42,7 @@ const App: React.FC = () => {
         const validTypes = ['image/jpeg', 'image/png'];
         const imgUrl = URL.createObjectURL(file);
         const image = document.createElement('img');
-        // image.onload = () => {
-        //     console.log('onLoad');
-        // };
-        // image.onabort = () => {
-        //     if (isCancel) {
-        //         setImageSrc(prev => prev);
-        //     }
-        // }
         image.src = imgUrl;
-
         const currentFormatFile = file.type.split('/')[1];
 
         if (validTypes.includes(file.type)) {
@@ -66,6 +52,19 @@ const App: React.FC = () => {
         return showWorningAlert(
             `Not correct file type "${currentFormatFile}"! Logo should be png or jpeg file format.`,
         );
+    };
+
+    const validateImageSize = (image: HTMLImageElement) => {
+        if (image.complete && image.naturalWidth > 0) {
+            if (image.width === 100 && image.height === 100) {
+                setImageSrc(image.src);
+            } else {
+                showWorningAlert('Logo should be square and 100px size');
+                setImageSrc(prev => prev);
+            }
+        } else {
+            setTimeout(() => validateImageSize(image), 100);
+        }
     };
 
     return (
@@ -82,7 +81,6 @@ const App: React.FC = () => {
                     imageSrc={imageSrc}
                     getSrc={getSrc}
                     getDragSrc={getDragSrc}
-                    isLoading={isLoading}
                 />
             </div>
         </div>
