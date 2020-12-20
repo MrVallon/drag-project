@@ -5,8 +5,10 @@ import './Drag.scss';
 
 interface TDragProps {
     imageSrc: string;
-    getSrc: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    getDragSrc: (event: React.DragEvent<HTMLDivElement>) => void;
+    handleFileOnButtonClick: (
+        event: React.ChangeEvent<HTMLInputElement>,
+    ) => void;
+    handleFileOnDrag: (event: React.DragEvent<HTMLDivElement>) => void;
     clearImageDataOnCancel: (isCancel: boolean) => void;
 }
 
@@ -20,8 +22,8 @@ interface TInitialState {
 
 const Drag: React.FC<TDragProps> = ({
     imageSrc,
-    getSrc,
-    getDragSrc,
+    handleFileOnButtonClick,
+    handleFileOnDrag,
     clearImageDataOnCancel,
 }) => {
     const [isCancel, setIsCancel] = useState<boolean>(false);
@@ -64,7 +66,7 @@ const Drag: React.FC<TDragProps> = ({
     };
 
     const dragQuit = (event: React.DragEvent<HTMLDivElement>) => {
-        getDragSrc(event);
+        handleFileOnDrag(event);
         setState({
             ...state,
             isActive: !isActive,
@@ -149,7 +151,7 @@ const Drag: React.FC<TDragProps> = ({
                         id="inputFile"
                         type="file"
                         accept="image/jpeg,image/png"
-                        onChange={event => getSrc(event)}
+                        onChange={event => handleFileOnButtonClick(event)}
                     />
                     <label className="drag__upload" htmlFor="inputFile">
                         {uploadButtonText}

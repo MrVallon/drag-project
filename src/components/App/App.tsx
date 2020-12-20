@@ -15,14 +15,16 @@ const App: React.FC = () => {
 
     const showWarningAlert = (message: string) => alert(message);
 
-    const getSrc = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileOnButtonClick = (
+        event: React.ChangeEvent<HTMLInputElement>,
+    ) => {
         if (event.target.files !== null) {
             const img = event.target.files[0];
             validateUniqueImage(img);
         }
     };
 
-    const getDragSrc = (event: React.DragEvent<HTMLDivElement>) => {
+    const handleFileOnDrag = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         if (event.dataTransfer.files !== null) {
             if (event.dataTransfer.files.length > 1) {
@@ -84,8 +86,8 @@ const App: React.FC = () => {
             <div className="app__main-field">
                 <Drag
                     imageSrc={imageSrc}
-                    getSrc={getSrc}
-                    getDragSrc={getDragSrc}
+                    handleFileOnButtonClick={handleFileOnButtonClick}
+                    handleFileOnDrag={handleFileOnDrag}
                     clearImageDataOnCancel={clearImageDataOnCancel}
                 />
             </div>
